@@ -30,7 +30,6 @@ public:
     QLineEdit *searchLine;
     QLabel *searchImage;
     QPushButton *addButton;
-    QPushButton *editButton;
     QScrollArea *scrollArea;
     QWidget *scrollAreaContacts;
     QWidget *widget;
@@ -70,13 +69,6 @@ public:
         addButton->setStyleSheet(QString::fromUtf8("background-color: white;\n"
 "border-radius: 10px;\n"
 "border: 2px solid lightgrey;"));
-        editButton = new QPushButton(centralwidget);
-        editButton->setObjectName("editButton");
-        editButton->setGeometry(QRect(310, 580, 111, 41));
-        editButton->setFont(font);
-        editButton->setStyleSheet(QString::fromUtf8("background-color: white;\n"
-"border: 2px solid lightgrey;\n"
-"border-radius: 10px;"));
         scrollArea = new QScrollArea(centralwidget);
         scrollArea->setObjectName("scrollArea");
         scrollArea->setGeometry(QRect(20, 120, 451, 431));
@@ -108,7 +100,6 @@ public:
         searchLine->setPlaceholderText(QCoreApplication::translate("MainWindow", "  Search contacts by name...", nullptr));
         searchImage->setText(QString());
         addButton->setText(QCoreApplication::translate("MainWindow", "Add contact", nullptr));
-        editButton->setText(QCoreApplication::translate("MainWindow", "Edit contact", nullptr));
     } // retranslateUi
 
 };

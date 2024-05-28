@@ -109,4 +109,3 @@ void MainWindow::onUpdateContact(const Contact &updatedContact, QWidget *contact
 }
 
 
-

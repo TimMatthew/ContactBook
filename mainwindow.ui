@@ -94,30 +94,6 @@ border: 2px solid lightgrey;</string>
      <string>Add contact</string>
     </property>
    </widget>
-   <widget class="QPushButton" name="editButton">
-    <property name="geometry">
-     <rect>
-      <x>310</x>
-      <y>580</y>
-      <width>111</width>
-      <height>41</height>
-     </rect>
-    </property>
-    <property name="font">
-     <font>
-      <family>Franklin Gothic Book</family>
-      <pointsize>12</pointsize>
-     </font>
-    </property>
-    <property name="styleSheet">
-     <string notr="true">background-color: white;
-border: 2px solid lightgrey;
-border-radius: 10px;</string>
-    </property>
-    <property name="text">
-     <string>Edit contact</string>
-    </property>
-   </widget>
    <widget class="QScrollArea" name="scrollArea">
     <property name="geometry">
      <rect>

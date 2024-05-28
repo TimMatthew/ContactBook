@@ -12,6 +12,7 @@
 #include <QtCore/QVariant>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QDialog>
+#include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QPushButton>
@@ -25,9 +26,12 @@ class Ui_editContactDialog
 public:
     QLineEdit *nameLine;
     QLabel *nameLabel;
-    QPushButton *OKButon;
     QScrollArea *scrollArea;
     QWidget *scrollAreaNumbers;
+    QWidget *widget;
+    QHBoxLayout *horizontalLayout;
+    QPushButton *deleteButton;
+    QPushButton *OKButon;
     QPushButton *addNumberButton;
 
     void setupUi(QDialog *editContactDialog)
@@ -45,13 +49,6 @@ public:
         font.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
         font.setPointSize(12);
         nameLabel->setFont(font);
-        OKButon = new QPushButton(editContactDialog);
-        OKButon->setObjectName("OKButon");
-        OKButon->setGeometry(QRect(110, 250, 131, 41));
-        QFont font1;
-        font1.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
-        font1.setPointSize(14);
-        OKButon->setFont(font1);
         scrollArea = new QScrollArea(editContactDialog);
         scrollArea->setObjectName("scrollArea");
         scrollArea->setGeometry(QRect(40, 70, 531, 141));
@@ -60,10 +57,30 @@ public:
         scrollAreaNumbers->setObjectName("scrollAreaNumbers");
         scrollAreaNumbers->setGeometry(QRect(0, 0, 529, 139));
         scrollArea->setWidget(scrollAreaNumbers);
-        addNumberButton = new QPushButton(editContactDialog);
+        widget = new QWidget(editContactDialog);
+        widget->setObjectName("widget");
+        widget->setGeometry(QRect(80, 270, 451, 28));
+        horizontalLayout = new QHBoxLayout(widget);
+        horizontalLayout->setObjectName("horizontalLayout");
+        horizontalLayout->setContentsMargins(0, 0, 0, 0);
+        deleteButton = new QPushButton(widget);
+        deleteButton->setObjectName("deleteButton");
+        deleteButton->setFont(font);
+
+        horizontalLayout->addWidget(deleteButton);
+
+        OKButon = new QPushButton(widget);
+        OKButon->setObjectName("OKButon");
+        OKButon->setFont(font);
+
+        horizontalLayout->addWidget(OKButon);
+
+        addNumberButton = new QPushButton(widget);
         addNumberButton->setObjectName("addNumberButton");
-        addNumberButton->setGeometry(QRect(330, 250, 161, 41));
         addNumberButton->setFont(font);
+
+        horizontalLayout->addWidget(addNumberButton);
+
 
         retranslateUi(editContactDialog);
 
@@ -74,8 +91,9 @@ public:
     {
         editContactDialog->setWindowTitle(QCoreApplication::translate("editContactDialog", "Edit the contact", nullptr));
         nameLabel->setText(QCoreApplication::translate("editContactDialog", "Contact Name", nullptr));
+        deleteButton->setText(QCoreApplication::translate("editContactDialog", "Delete contact", nullptr));
         OKButon->setText(QCoreApplication::translate("editContactDialog", "OK", nullptr));
-        addNumberButton->setText(QCoreApplication::translate("editContactDialog", "+ Add another number", nullptr));
+        addNumberButton->setText(QCoreApplication::translate("editContactDialog", "Add number", nullptr));
     } // retranslateUi
 
 };

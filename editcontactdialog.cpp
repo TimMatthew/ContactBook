@@ -36,20 +36,36 @@ void editContactDialog::loadNumbers()
         QWidget *newNumberWidget = new QWidget(ui->scrollAreaNumbers);
         newNumberWidget->setFixedSize(441, 41);
 
+        QHBoxLayout *numberLayout = new QHBoxLayout(newNumberWidget);
+
         QLabel *nameLabel = new QLabel(newNumberWidget);
-        nameLabel->setGeometry(10, 10, 124, 22);
         nameLabel->setFont(QFont("Franklin Gothic Book", 12));
         nameLabel->setText(QString("Phone Number #%1").arg(i));
+        numberLayout->addWidget(nameLabel);
 
         QLineEdit *numberLine = new QLineEdit(number, newNumberWidget);
         numberLine->setObjectName(QString("numberLine%1").arg(i));  // Set object name for later retrieval
-        numberLine->setGeometry(140, 10, 291, 22);
+        numberLayout->addWidget(numberLine);
+
+        // Add the remove button to all numbers except the first one
+        if (i > 1) {
+            QPushButton *removeButton = new QPushButton("X", newNumberWidget);
+            removeButton->setObjectName(QString("removeButton%1").arg(i));
+            removeButton->setFixedSize(20, 20);
+            numberLayout->addWidget(removeButton);
+
+            // Connect the remove button's clicked signal to a slot to remove the corresponding number widget
+            connect(removeButton, &QPushButton::clicked, [=]() {
+                delete newNumberWidget;
+            });
+        }
 
         layout->addWidget(newNumberWidget);
         i++;
     }
     ui->scrollAreaNumbers->setLayout(layout);
 }
+
 
 void editContactDialog::on_OKButon_clicked()
 {
@@ -81,18 +97,35 @@ void editContactDialog::on_OKButon_clicked()
 
 void editContactDialog::on_addNumberButton_clicked()
 {
+    int numberIndex = ui->scrollAreaNumbers->layout()->count() + 1;
+
     QWidget *newNumberWidget = new QWidget(ui->scrollAreaNumbers);
     newNumberWidget->setFixedSize(441, 41);
 
+    QHBoxLayout *numberLayout = new QHBoxLayout(newNumberWidget);
+
     QLabel *nameLabel = new QLabel(newNumberWidget);
-    nameLabel->setGeometry(10, 10, 124, 22);
     nameLabel->setFont(QFont("Franklin Gothic Book", 12));
-    nameLabel->setText(QString("Phone Number #%1").arg(ui->scrollAreaNumbers->layout()->count() + 1));
+    nameLabel->setText(QString("Phone Number #%1").arg(numberIndex));
+    numberLayout->addWidget(nameLabel);
 
     QLineEdit *numberLine = new QLineEdit(newNumberWidget);
-    numberLine->setObjectName(QString("numberLine%1").arg(ui->scrollAreaNumbers->layout()->count() + 1));  // Set object name for later retrieval
-    numberLine->setGeometry(140, 10, 291, 22);
+    numberLine->setObjectName(QString("numberLine%1").arg(numberIndex));
+    numberLayout->addWidget(numberLine);
 
+    // Create a button to remove the number
+    QPushButton *removeButton = new QPushButton("X", newNumberWidget);
+    removeButton->setObjectName(QString("removeButton%1").arg(numberIndex));
+    removeButton->setFixedSize(20, 20);
+    numberLayout->addWidget(removeButton);
+
+    // Connect the remove button's clicked signal to a slot to remove the corresponding number widget
+    connect(removeButton, &QPushButton::clicked, [=]() {
+        delete newNumberWidget;
+    });
+
+    // Add the new widget to the scroll area's layout
     QVBoxLayout *layout = qobject_cast<QVBoxLayout*>(ui->scrollAreaNumbers->layout());
     layout->addWidget(newNumberWidget);
 }
+
