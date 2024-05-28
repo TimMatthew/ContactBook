@@ -1,0 +1,5 @@
+<!DOCTYPE RCC><RCC version="1.0">
+<qresource prefix="/">
+<file alias="search_icon_small.png">C:/Users/tymop/Qt repos/ContactBook1/search_icon_small.png</file>
+</qresource>
+</RCC>
