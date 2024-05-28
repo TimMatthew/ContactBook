@@ -72,7 +72,27 @@ void editContactDialog::on_OKButon_clicked()
     contactToEdit.setPhoneNumbers(updatedNumbers);
 
     // Emit the signal to inform the main window about the update
-    emit contactUpdated(contactToEdit);
+    emit contactUpdated(contactToEdit, this);
+
 
     accept();
+}
+
+
+void editContactDialog::on_addNumberButton_clicked()
+{
+    QWidget *newNumberWidget = new QWidget(ui->scrollAreaNumbers);
+    newNumberWidget->setFixedSize(441, 41);
+
+    QLabel *nameLabel = new QLabel(newNumberWidget);
+    nameLabel->setGeometry(10, 10, 124, 22);
+    nameLabel->setFont(QFont("Franklin Gothic Book", 12));
+    nameLabel->setText(QString("Phone Number #%1").arg(ui->scrollAreaNumbers->layout()->count() + 1));
+
+    QLineEdit *numberLine = new QLineEdit(newNumberWidget);
+    numberLine->setObjectName(QString("numberLine%1").arg(ui->scrollAreaNumbers->layout()->count() + 1));  // Set object name for later retrieval
+    numberLine->setGeometry(140, 10, 291, 22);
+
+    QVBoxLayout *layout = qobject_cast<QVBoxLayout*>(ui->scrollAreaNumbers->layout());
+    layout->addWidget(newNumberWidget);
 }

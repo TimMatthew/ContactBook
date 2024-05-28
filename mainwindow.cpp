@@ -83,29 +83,30 @@ void MainWindow::onContactWidgetClicked(QWidget *contactWidget)
 {
     Contact contact = contactWidgetsMap[contactWidget];
     editContactDialog ecd(this);
-    connect(&ecd, &editContactDialog::contactUpdated, this, &MainWindow::onUpdateContact);
+    connect(&ecd, &editContactDialog::contactUpdated, this, [=](const Contact &updatedContact) {
+        onUpdateContact(updatedContact, contactWidget);
+    });
     ecd.setContact(contact);
     ecd.setModal(true);
     ecd.exec();
 }
 
-void MainWindow::onUpdateContact(const Contact &updatedContact)
-{
-    // Find the contact widget associated with the updated contact
-    for (auto it = contactWidgetsMap.begin(); it != contactWidgetsMap.end(); ++it) {
-        if (it.value().getContactName() == updatedContact.getContactName()) {
-            // Update the contact in the map
-            it.value().setPhoneNumbers(updatedContact.getPhoneNumbers());
 
-            // Update the contact widget
-            ContactWidget *contactWidget = qobject_cast<ContactWidget*>(it.key());
-            if (contactWidget) {
-                contactWidget->deleteLater();
-                QWidget *newContactWidget = createContactWidget(updatedContact);
-                contactsLayout->replaceWidget(contactWidget, newContactWidget);
-                contactWidget->hide();
-            }
-            break;
-        }
-    }
+
+void MainWindow::onUpdateContact(const Contact &updatedContact, QWidget *contactWidget)
+{
+    // Update the contact in the map
+    contactWidgetsMap[contactWidget] = updatedContact;
+
+    // Create a new contact widget with the updated data
+    QWidget *newContactWidget = createContactWidget(updatedContact);
+
+    // Replace the old widget with the new one in the layout
+    contactsLayout->replaceWidget(contactWidget, newContactWidget);
+
+    // Delete the old widget
+    contactWidget->deleteLater();
 }
+
+
+

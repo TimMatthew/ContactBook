@@ -67,12 +67,12 @@ Q_CONSTINIT static const uint qt_meta_data_CLASSMainWindowENDCLASS[] = {
  // slots: name, argc, parameters, tag, flags, initial metatype offsets
        1,    0,   32,    2, 0x08,    1 /* Private */,
        3,    1,   33,    2, 0x08,    2 /* Private */,
-       6,    1,   36,    2, 0x08,    4 /* Private */,
+       6,    2,   36,    2, 0x08,    4 /* Private */,
 
  // slots: parameters
     QMetaType::Void,
     QMetaType::Void, 0x80000000 | 4,    5,
-    QMetaType::Void, 0x80000000 | 7,    8,
+    QMetaType::Void, 0x80000000 | 7, 0x80000000 | 4,    8,    5,
 
        0        // eod
 };
@@ -93,7 +93,8 @@ Q_CONSTINIT const QMetaObject MainWindow::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
         // method 'onUpdateContact'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        QtPrivate::TypeAndForceComplete<const Contact &, std::false_type>
+        QtPrivate::TypeAndForceComplete<const Contact &, std::false_type>,
+        QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>
     >,
     nullptr
 } };
@@ -106,7 +107,7 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
         switch (_id) {
         case 0: _t->on_addButton_clicked(); break;
         case 1: _t->onContactWidgetClicked((*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[1]))); break;
-        case 2: _t->onUpdateContact((*reinterpret_cast< std::add_pointer_t<Contact>>(_a[1]))); break;
+        case 2: _t->onUpdateContact((*reinterpret_cast< std::add_pointer_t<Contact>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2]))); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {
@@ -116,6 +117,13 @@ void MainWindow::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int _id, 
             switch (*reinterpret_cast<int*>(_a[1])) {
             default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
             case 0:
+                *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QWidget* >(); break;
+            }
+            break;
+        case 2:
+            switch (*reinterpret_cast<int*>(_a[1])) {
+            default: *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType(); break;
+            case 1:
                 *reinterpret_cast<QMetaType *>(_a[0]) = QMetaType::fromType< QWidget* >(); break;
             }
             break;
