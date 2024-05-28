@@ -18,7 +18,6 @@ MainWindow::MainWindow(QWidget *parent)
     contactsLayout = new QVBoxLayout();
     contactsLayout->setAlignment(Qt::AlignTop);
     ui->scrollAreaContacts->setLayout(contactsLayout);
-    //connect(this, &MainWindow::contactWidgetClicked, this, &MainWindow::onContactWidgetClicked);
 }
 
 MainWindow::~MainWindow()
@@ -84,16 +83,24 @@ void MainWindow::onContactWidgetClicked(QWidget *contactWidget)
     Contact contact = contactWidgetsMap[contactWidget];
     editContactDialog ecd(this);
     connect(&ecd, &editContactDialog::contactUpdated, this, [=](const Contact &updatedContact) {
-        onUpdateContact(updatedContact, contactWidget);
+        updateContact(updatedContact, contactWidget);
+    });
+    connect(&ecd, &editContactDialog::contactDeleted, this, [=](const Contact &deletedContact) {
+        deleteContact(deletedContact, contactWidget);
     });
     ecd.setContact(contact);
     ecd.setModal(true);
     ecd.exec();
 }
 
+void MainWindow::deleteContact(const Contact &deletedContact, QWidget *contactWidgetToDelete){
 
+    contactWidgetsMap.remove(contactWidgetToDelete);
+    contactsLayout->removeWidget(contactWidgetToDelete);
+    contactWidgetToDelete->deleteLater();
+}
 
-void MainWindow::onUpdateContact(const Contact &updatedContact, QWidget *contactWidget)
+void MainWindow::updateContact(const Contact &updatedContact, QWidget *contactWidget)
 {
     // Update the contact in the map
     contactWidgetsMap[contactWidget] = updatedContact;

@@ -30,7 +30,8 @@ protected:
 private slots:
     void on_addButton_clicked();
     void onContactWidgetClicked(QWidget *contactWidget);
-    void onUpdateContact(const Contact &updatedContact, QWidget *contactWidget);
+    void updateContact(const Contact &updatedContact, QWidget *contactWidget);
+    void deleteContact(const Contact &updatedContact, QWidget *contactWidget);
 
 private:
     QLabel *noContactsLabel;

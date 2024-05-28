@@ -19,11 +19,12 @@ public:
 
 private slots:
     void on_OKButon_clicked();
-
     void on_addNumberButton_clicked();
+    void on_deleteButton_clicked();
 
 signals:
     void contactUpdated(const Contact &contact, QWidget *contactWidget);
+    void contactDeleted(const Contact &contact, QWidget *contactWidget);
 
 private:
     Ui::editContactDialog *ui;

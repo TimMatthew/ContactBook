@@ -1,5 +1,6 @@
 #include "editcontactdialog.h"
 #include "ui_editcontactdialog.h"
+#include "mainwindow.h"
 #include <QVBoxLayout>
 #include <QLineEdit>
 
@@ -94,6 +95,11 @@ void editContactDialog::on_OKButon_clicked()
     accept();
 }
 
+void editContactDialog::on_deleteButton_clicked()
+{
+    emit contactDeleted(contactToEdit, this);
+    hide();
+}
 
 void editContactDialog::on_addNumberButton_clicked()
 {
@@ -128,4 +134,7 @@ void editContactDialog::on_addNumberButton_clicked()
     QVBoxLayout *layout = qobject_cast<QVBoxLayout*>(ui->scrollAreaNumbers->layout());
     layout->addWidget(newNumberWidget);
 }
+
+
+
 
