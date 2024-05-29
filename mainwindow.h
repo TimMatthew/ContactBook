@@ -7,6 +7,8 @@
 #include <QLabel>
 #include<QLineEdit>
 #include "contact.h"
+#include <QDebug>
+#include <QMouseEvent>
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -25,13 +27,14 @@ public:
     ~MainWindow();
 
 protected:
-    bool eventFilter(QObject *obj, QEvent *event) override;
+    bool eventFilter(QObject *obj, QEvent *e) override;
 
 private slots:
     void on_addButton_clicked();
     void onContactWidgetClicked(QWidget *contactWidget);
     void updateContact(const Contact &updatedContact, QWidget *contactWidget);
     void deleteContact(const Contact &updatedContact, QWidget *contactWidget);
+    void on_searchImage_clicked();
 
 private:
     QLabel *noContactsLabel;

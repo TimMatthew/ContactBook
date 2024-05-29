@@ -5,6 +5,7 @@
 #include "contactwidget.h"
 #include "contact.h"
 
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -18,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
     contactsLayout = new QVBoxLayout();
     contactsLayout->setAlignment(Qt::AlignTop);
     ui->scrollAreaContacts->setLayout(contactsLayout);
+    ui->searchImage->installEventFilter(this);
 }
 
 MainWindow::~MainWindow()
@@ -32,16 +34,17 @@ QWidget* MainWindow::createContactWidget(const Contact& newContact)
                                  "QWidget { background-color: #f9f9f9; "
                                  "border-radius: 14px;"
                                  "font: Franklin Gothic Book;"
-                                 "font-size: 10pt;"
+                                 "font-size: 11pt;"
                                  "border: 2px solid lightblue;"
-                                 "margin: 5px}");
+                                 "margin: 5px;"
+                                 "padding-left: 8px;}");
     QVBoxLayout *widgetLayout = new QVBoxLayout(contactWidget);
 
     QLabel *nameLabel = new QLabel(newContact.getContactName());
     nameLabel->setStyleSheet("QLabel{border: 0px; margin: 2px}");
     widgetLayout->addWidget(nameLabel);
 
-    int width=410, height=60, amount=1;
+    int width=420, height=70, amount=1;
 
     for (const QString &phoneNumber : newContact.getPhoneNumbers()) {
 
@@ -56,11 +59,17 @@ QWidget* MainWindow::createContactWidget(const Contact& newContact)
 
     contactWidgetsMap[contactWidget] = newContact;
 
+    ui->noContactsLabel->hide();
     return contactWidget;
 }
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
+
+    if(obj == ui->searchImage && event->type() == QEvent::MouseButtonPress){
+        on_searchImage_clicked();
+        return true;
+    }
     if (event->type() == QEvent::MouseButtonPress) {
         QWidget *clickedWidget = qobject_cast<QWidget*>(obj);
         if (clickedWidget) {
@@ -70,6 +79,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
     }
     return QMainWindow::eventFilter(obj, event);
 }
+
 
 void MainWindow::on_addButton_clicked()
 {
@@ -93,26 +103,58 @@ void MainWindow::onContactWidgetClicked(QWidget *contactWidget)
     ecd.exec();
 }
 
+void MainWindow::on_searchImage_clicked() {
+    QString searchPrompt = ui->searchLine->text();
+    QList<QWidget*> contactsMatched;
+
+    for (auto it = contactWidgetsMap.constBegin(); it != contactWidgetsMap.constEnd(); ++it) {
+        Contact contact = it.value();
+
+        bool contactMatches = false;
+
+        if (contact.getContactName().contains(searchPrompt, Qt::CaseInsensitive)) {
+            contactMatches = true;
+        }
+        else {
+            QVector<QString> contactNumbers = contact.getPhoneNumbers();
+            for (const QString &number : contactNumbers) {
+                if (number.startsWith(searchPrompt)) {
+                    contactMatches = true;
+                    break;
+                }
+            }
+        }
+
+        if (contactMatches) {
+            contactsMatched.append(it.key());
+        }
+    }
+
+    // Show or hide contacts based on the search result
+    for (auto it = contactWidgetsMap.constBegin(); it != contactWidgetsMap.constEnd(); ++it) {
+        QWidget *contactWidget = it.key();
+        if (contactsMatched.contains(contactWidget)) {
+            contactWidget->show();
+        } else {
+            contactWidget->hide();
+        }
+    }
+}
+
+
 void MainWindow::deleteContact(const Contact &deletedContact, QWidget *contactWidgetToDelete){
 
     contactWidgetsMap.remove(contactWidgetToDelete);
     contactsLayout->removeWidget(contactWidgetToDelete);
     contactWidgetToDelete->deleteLater();
+
+    if(contactWidgetsMap.empty()) ui->noContactsLabel->show();
 }
 
 void MainWindow::updateContact(const Contact &updatedContact, QWidget *contactWidget)
 {
-    // Update the contact in the map
     contactWidgetsMap[contactWidget] = updatedContact;
-
-    // Create a new contact widget with the updated data
     QWidget *newContactWidget = createContactWidget(updatedContact);
-
-    // Replace the old widget with the new one in the layout
     contactsLayout->replaceWidget(contactWidget, newContactWidget);
-
-    // Delete the old widget
     contactWidget->deleteLater();
 }
-
-

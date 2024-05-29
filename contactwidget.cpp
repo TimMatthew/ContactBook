@@ -13,15 +13,11 @@ ContactWidget::ContactWidget(const QString &contactName, const QVector<QString> 
         "margin: 5px; }"
         );
 
-    // Create layout
     layout = new QVBoxLayout(this);
-
-    // Create and add the contact name label
     nameLabel = new QLabel(contactName, this);
     nameLabel->setStyleSheet("QLabel{border: 0px; margin: 2px;}");
     layout->addWidget(nameLabel);
 
-    // Create and add phone number labels
     for (const QString &phoneNumber : phoneNumbers) {
         QLabel *phoneLabel = new QLabel(phoneNumber, this);
         phoneLabel->setStyleSheet("QLabel{border: 0px; margin: 2px;}");

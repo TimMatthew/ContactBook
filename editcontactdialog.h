@@ -3,6 +3,7 @@
 
 #include <QDialog>
 #include "contact.h"
+#include <QLabel>
 
 namespace Ui {
 class editContactDialog;
@@ -30,6 +31,9 @@ private:
     Ui::editContactDialog *ui;
     void loadNumbers();
     Contact contactToEdit;
+    QLabel *emptyName;
+    QLabel *emptyNumber;
+    QLabel *wrongNumber;
 };
 
 #endif // EDITCONTACTDIALOG_H

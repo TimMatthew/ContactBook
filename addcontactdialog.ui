@@ -13,10 +13,13 @@
   <property name="windowTitle">
    <string>Add a new contact</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:rgb(206, 253, 255);</string>
+  </property>
   <widget class="QPushButton" name="OKButton">
    <property name="geometry">
     <rect>
-     <x>120</x>
+     <x>110</x>
      <y>260</y>
      <width>101</width>
      <height>41</height>
@@ -27,6 +30,11 @@
      <family>Franklin Gothic Book</family>
      <pointsize>14</pointsize>
     </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;
+border: 2px solid black;
+border-radius: 15px;</string>
    </property>
    <property name="text">
     <string>OK</string>
@@ -47,6 +55,11 @@
      <pointsize>12</pointsize>
     </font>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;
+border: 2px solid black;
+border-radius: 15px;</string>
+   </property>
    <property name="text">
     <string>+ Add another number</string>
    </property>
@@ -59,6 +72,9 @@
      <width>491</width>
      <height>161</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;</string>
    </property>
    <property name="widgetResizable">
     <bool>true</bool>
@@ -98,9 +114,93 @@
      </widget>
     </item>
     <item>
-     <widget class="QLineEdit" name="nameLine"/>
+     <widget class="QLineEdit" name="nameLine">
+      <property name="styleSheet">
+       <string notr="true">background-color: white; 
+border-radius: 5px;
+border: 2px solid black;</string>
+      </property>
+     </widget>
     </item>
    </layout>
+  </widget>
+  <widget class="QLabel" name="wrongNumber">
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>230</y>
+     <width>341</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: darkred;</string>
+   </property>
+   <property name="text">
+    <string>Invalid input to phone numbers!</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="emptyName">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>230</y>
+     <width>341</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: darkred;</string>
+   </property>
+   <property name="text">
+    <string>The name is empty!</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="emptyNumber">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>110</x>
+     <y>230</y>
+     <width>341</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(255, 47, 47);</string>
+   </property>
+   <property name="text">
+    <string>The number is empty!</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
   </widget>
  </widget>
  <resources/>

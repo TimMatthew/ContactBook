@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Edit the contact</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:  rgb(210, 255, 252);</string>
+  </property>
   <widget class="QLineEdit" name="nameLine">
    <property name="geometry">
     <rect>
@@ -21,6 +24,11 @@
      <width>431</width>
      <height>22</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;
+border-radius: 10px;
+border: 2px solid black;</string>
    </property>
   </widget>
   <widget class="QLabel" name="nameLabel">
@@ -51,6 +59,9 @@
      <height>141</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;</string>
+   </property>
    <property name="widgetResizable">
     <bool>true</bool>
    </property>
@@ -65,56 +76,166 @@
     </property>
    </widget>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QLabel" name="wrongNumber">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>270</y>
-     <width>451</width>
-     <height>28</height>
+     <x>130</x>
+     <y>230</y>
+     <width>341</width>
+     <height>21</height>
     </rect>
    </property>
-   <layout class="QHBoxLayout" name="horizontalLayout">
-    <item>
-     <widget class="QPushButton" name="deleteButton">
-      <property name="font">
-       <font>
-        <family>Franklin Gothic Book</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Delete contact</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="OKButon">
-      <property name="font">
-       <font>
-        <family>Franklin Gothic Book</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>OK</string>
-      </property>
-     </widget>
-    </item>
-    <item>
-     <widget class="QPushButton" name="addNumberButton">
-      <property name="font">
-       <font>
-        <family>Franklin Gothic Book</family>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>Add number</string>
-      </property>
-     </widget>
-    </item>
-   </layout>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: darkred;</string>
+   </property>
+   <property name="text">
+    <string>Invalid input to phone numbers!</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="emptyNumber">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>230</y>
+     <width>341</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: darkred;</string>
+   </property>
+   <property name="text">
+    <string>The number is empty!</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLabel" name="emptyName">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>130</x>
+     <y>230</y>
+     <width>341</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: darkred;</string>
+   </property>
+   <property name="text">
+    <string>The name is empty!</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="addNumberButton">
+   <property name="geometry">
+    <rect>
+     <x>390</x>
+     <y>220</y>
+     <width>146</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Franklin Gothic Book</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;
+border: 2px solid black;
+border-radius: 10px;</string>
+   </property>
+   <property name="text">
+    <string>Add number</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="OKButon">
+   <property name="geometry">
+    <rect>
+     <x>239</x>
+     <y>220</y>
+     <width>145</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Franklin Gothic Book</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;
+border: 2px solid black;
+border-radius: 10px;</string>
+   </property>
+   <property name="text">
+    <string>OK</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="deleteButton">
+   <property name="geometry">
+    <rect>
+     <x>87</x>
+     <y>220</y>
+     <width>146</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <family>Franklin Gothic Book</family>
+     <pointsize>12</pointsize>
+    </font>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: white;
+border: 2px solid black;
+border-radius: 10px;</string>
+   </property>
+   <property name="text">
+    <string>Delete contact</string>
+   </property>
+  </widget>
+  <widget class="QWidget" name="horizontalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>250</y>
+     <width>481</width>
+     <height>51</height>
+    </rect>
+   </property>
+   <layout class="QHBoxLayout" name="horizontalLayout"/>
   </widget>
  </widget>
  <resources/>

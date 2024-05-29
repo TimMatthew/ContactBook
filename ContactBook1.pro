@@ -11,7 +11,6 @@ CONFIG += c++17
 SOURCES += \
     addcontactdialog.cpp \
     contact.cpp \
-    contactwidget.cpp \
     editcontactdialog.cpp \
     main.cpp \
     mainwindow.cpp
@@ -19,13 +18,11 @@ SOURCES += \
 HEADERS += \
     addcontactdialog.h \
     contact.h \
-    contactwidget.h \
     editcontactdialog.h \
     mainwindow.h
 
 FORMS += \
     addcontactdialog.ui \
-    contactwidget.ui \
     editcontactdialog.ui \
     mainwindow.ui
 

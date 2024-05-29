@@ -32,19 +32,26 @@ public:
     QHBoxLayout *nameLayout;
     QLabel *nameLabel;
     QLineEdit *nameLine;
+    QLabel *wrongNumber;
+    QLabel *emptyName;
+    QLabel *emptyNumber;
 
     void setupUi(QDialog *addContactDialog)
     {
         if (addContactDialog->objectName().isEmpty())
             addContactDialog->setObjectName("addContactDialog");
         addContactDialog->resize(548, 329);
+        addContactDialog->setStyleSheet(QString::fromUtf8("background-color:rgb(206, 253, 255);"));
         OKButton = new QPushButton(addContactDialog);
         OKButton->setObjectName("OKButton");
-        OKButton->setGeometry(QRect(120, 260, 101, 41));
+        OKButton->setGeometry(QRect(110, 260, 101, 41));
         QFont font;
         font.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
         font.setPointSize(14);
         OKButton->setFont(font);
+        OKButton->setStyleSheet(QString::fromUtf8("background-color: white;\n"
+"border: 2px solid black;\n"
+"border-radius: 15px;"));
         addNumberButton = new QPushButton(addContactDialog);
         addNumberButton->setObjectName("addNumberButton");
         addNumberButton->setGeometry(QRect(280, 260, 171, 41));
@@ -52,9 +59,13 @@ public:
         font1.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
         font1.setPointSize(12);
         addNumberButton->setFont(font1);
+        addNumberButton->setStyleSheet(QString::fromUtf8("background-color: white;\n"
+"border: 2px solid black;\n"
+"border-radius: 15px;"));
         scrollArea = new QScrollArea(addContactDialog);
         scrollArea->setObjectName("scrollArea");
         scrollArea->setGeometry(QRect(30, 60, 491, 161));
+        scrollArea->setStyleSheet(QString::fromUtf8("background-color: white;"));
         scrollArea->setWidgetResizable(true);
         scrollAreaNumbers = new QWidget();
         scrollAreaNumbers->setObjectName("scrollAreaNumbers");
@@ -74,9 +85,34 @@ public:
 
         nameLine = new QLineEdit(layoutWidget);
         nameLine->setObjectName("nameLine");
+        nameLine->setStyleSheet(QString::fromUtf8("background-color: white; \n"
+"border-radius: 5px;\n"
+"border: 2px solid black;"));
 
         nameLayout->addWidget(nameLine);
 
+        wrongNumber = new QLabel(addContactDialog);
+        wrongNumber->setObjectName("wrongNumber");
+        wrongNumber->setGeometry(QRect(110, 230, 341, 21));
+        QFont font2;
+        font2.setPointSize(12);
+        wrongNumber->setFont(font2);
+        wrongNumber->setStyleSheet(QString::fromUtf8("color: darkred;"));
+        wrongNumber->setAlignment(Qt::AlignCenter);
+        emptyName = new QLabel(addContactDialog);
+        emptyName->setObjectName("emptyName");
+        emptyName->setEnabled(true);
+        emptyName->setGeometry(QRect(110, 230, 341, 21));
+        emptyName->setFont(font2);
+        emptyName->setStyleSheet(QString::fromUtf8("color: darkred;"));
+        emptyName->setAlignment(Qt::AlignCenter);
+        emptyNumber = new QLabel(addContactDialog);
+        emptyNumber->setObjectName("emptyNumber");
+        emptyNumber->setEnabled(true);
+        emptyNumber->setGeometry(QRect(110, 230, 341, 21));
+        emptyNumber->setFont(font2);
+        emptyNumber->setStyleSheet(QString::fromUtf8("color: rgb(255, 47, 47);"));
+        emptyNumber->setAlignment(Qt::AlignCenter);
 
         retranslateUi(addContactDialog);
 
@@ -89,6 +125,9 @@ public:
         OKButton->setText(QCoreApplication::translate("addContactDialog", "OK", nullptr));
         addNumberButton->setText(QCoreApplication::translate("addContactDialog", "+ Add another number", nullptr));
         nameLabel->setText(QCoreApplication::translate("addContactDialog", "Contact Name", nullptr));
+        wrongNumber->setText(QCoreApplication::translate("addContactDialog", "Invalid input to phone numbers!", nullptr));
+        emptyName->setText(QCoreApplication::translate("addContactDialog", "The name is empty!", nullptr));
+        emptyNumber->setText(QCoreApplication::translate("addContactDialog", "The number is empty!", nullptr));
     } // retranslateUi
 
 };

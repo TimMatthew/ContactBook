@@ -24,6 +24,9 @@ private:
     Ui::addContactDialog *ui;
     void addNumberWidget(int number);
     MainWindow *mainWindowRef;
+    QLabel *emptyName;
+    QLabel *emptyNumber;
+    QLabel *wrongNumber;
 };
 
 #endif // ADDCONTACTDIALOG_H

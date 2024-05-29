@@ -3,17 +3,24 @@
 #include "mainwindow.h"
 #include <QVBoxLayout>
 #include <QLineEdit>
+#include <QRegularExpression>
 
 editContactDialog::editContactDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::editContactDialog)
 {
     ui->setupUi(this);
-    setStyleSheet("QDialog{"
-                  "background-color: lightgrey;}");
     ui->scrollAreaNumbers->setStyleSheet("QScrollArea{"
                                          "border: 1px solid black,"
                                          "border-radius: 10px;}");
+
+    emptyName = ui->emptyName;
+    emptyNumber = ui->emptyNumber;
+    wrongNumber = ui->wrongNumber;
+
+    emptyName->hide();
+    emptyNumber->hide();
+    wrongNumber->hide();
 }
 
 editContactDialog::~editContactDialog()
@@ -45,17 +52,15 @@ void editContactDialog::loadNumbers()
         numberLayout->addWidget(nameLabel);
 
         QLineEdit *numberLine = new QLineEdit(number, newNumberWidget);
-        numberLine->setObjectName(QString("numberLine%1").arg(i));  // Set object name for later retrieval
+        numberLine->setObjectName(QString("numberLine%1").arg(i));
         numberLayout->addWidget(numberLine);
 
-        // Add the remove button to all numbers except the first one
         if (i > 1) {
             QPushButton *removeButton = new QPushButton("X", newNumberWidget);
             removeButton->setObjectName(QString("removeButton%1").arg(i));
             removeButton->setFixedSize(20, 20);
             numberLayout->addWidget(removeButton);
 
-            // Connect the remove button's clicked signal to a slot to remove the corresponding number widget
             connect(removeButton, &QPushButton::clicked, [=]() {
                 delete newNumberWidget;
             });
@@ -72,27 +77,55 @@ void editContactDialog::on_OKButon_clicked()
 {
     QString updatedName = ui->nameLine->text();
     QVector<QString> updatedNumbers;
+    QRegularExpression qre("\\p{L}");
 
-    // Retrieve the numbers from the line edits
-    int i = 1;
-    while (true) {
-        QLineEdit *numberLine = findChild<QLineEdit *>(QString("numberLine%1").arg(i));
-        if (!numberLine) {
-            break;
+    bool isAllright=true;
+
+    if(updatedName.isEmpty()){
+        isAllright=false;
+        wrongNumber->hide();
+        emptyNumber->hide();
+        emptyName->show();
+    }
+    else{
+        int i = 1;
+        while (true) {
+            QLineEdit *numberLine = findChild<QLineEdit *>(QString("numberLine%1").arg(i));
+            if (!numberLine) {
+                break;
+            }
+            if(numberLine->text().isEmpty()){
+
+                isAllright = false;
+                wrongNumber->hide();
+                emptyNumber->show();
+                emptyName->hide();
+                break;
+            }
+            else if(numberLine->text().contains(qre)){
+
+                isAllright = false;
+                wrongNumber->show();
+                emptyNumber->hide();
+                emptyName->hide();
+                break;
+            }
+            else{
+                isAllright=true;
+                updatedNumbers.append(numberLine->text());
+            }
+            i++;
         }
-        updatedNumbers.append(numberLine->text());
-        i++;
     }
 
-    // Update the contact information
-    contactToEdit.setContactName(updatedName);
-    contactToEdit.setPhoneNumbers(updatedNumbers);
+    if(isAllright){
+        contactToEdit.setContactName(updatedName);
+        contactToEdit.setPhoneNumbers(updatedNumbers);
 
-    // Emit the signal to inform the main window about the update
-    emit contactUpdated(contactToEdit, this);
+        emit contactUpdated(contactToEdit, this);
+        accept();
+    }
 
-
-    accept();
 }
 
 void editContactDialog::on_deleteButton_clicked()
@@ -119,22 +152,16 @@ void editContactDialog::on_addNumberButton_clicked()
     numberLine->setObjectName(QString("numberLine%1").arg(numberIndex));
     numberLayout->addWidget(numberLine);
 
-    // Create a button to remove the number
+
     QPushButton *removeButton = new QPushButton("X", newNumberWidget);
     removeButton->setObjectName(QString("removeButton%1").arg(numberIndex));
     removeButton->setFixedSize(20, 20);
     numberLayout->addWidget(removeButton);
 
-    // Connect the remove button's clicked signal to a slot to remove the corresponding number widget
     connect(removeButton, &QPushButton::clicked, [=]() {
         delete newNumberWidget;
     });
 
-    // Add the new widget to the scroll area's layout
     QVBoxLayout *layout = qobject_cast<QVBoxLayout*>(ui->scrollAreaNumbers->layout());
     layout->addWidget(newNumberWidget);
 }
-
-
-
-

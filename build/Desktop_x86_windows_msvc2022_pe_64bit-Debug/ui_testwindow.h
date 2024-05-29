@@ -30,7 +30,6 @@ public:
         if (TestWindow->objectName().isEmpty())
             TestWindow->setObjectName("TestWindow");
         TestWindow->resize(800, 600);
-        TestWindow->setStyleSheet(QString::fromUtf8("background-color: lightblue;"));
         centralwidget = new QWidget(TestWindow);
         centralwidget->setObjectName("centralwidget");
         TestWindow->setCentralWidget(centralwidget);

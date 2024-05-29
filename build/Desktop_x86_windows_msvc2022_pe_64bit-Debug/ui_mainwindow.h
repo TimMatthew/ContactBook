@@ -10,10 +10,12 @@
 #define UI_MAINWINDOW_H
 
 #include <QtCore/QVariant>
+#include <QtGui/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QMainWindow>
+#include <QtWidgets/QMenu>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
 #include <QtWidgets/QScrollArea>
@@ -33,7 +35,10 @@ public:
     QScrollArea *scrollArea;
     QWidget *scrollAreaContacts;
     QWidget *widget;
+    QLabel *noContactsLabel;
     QMenuBar *menubar;
+    QMenu *menuOpenfrom_file;
+    QMenu *menuSave;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -64,11 +69,15 @@ public:
         searchImage->setScaledContents(true);
         addButton = new QPushButton(centralwidget);
         addButton->setObjectName("addButton");
-        addButton->setGeometry(QRect(60, 580, 111, 41));
-        addButton->setFont(font);
-        addButton->setStyleSheet(QString::fromUtf8("background-color: white;\n"
-"border-radius: 10px;\n"
-"border: 2px solid lightgrey;"));
+        addButton->setGeometry(QRect(400, 570, 71, 71));
+        QFont font1;
+        font1.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
+        font1.setPointSize(48);
+        addButton->setFont(font1);
+        addButton->setStyleSheet(QString::fromUtf8("background-color: lightgreen;\n"
+"border-radius: 35px;\n"
+"color: white;\n"
+""));
         scrollArea = new QScrollArea(centralwidget);
         scrollArea->setObjectName("scrollArea");
         scrollArea->setGeometry(QRect(20, 120, 451, 431));
@@ -79,15 +88,36 @@ public:
         widget = new QWidget(scrollAreaContacts);
         widget->setObjectName("widget");
         widget->setGeometry(QRect(20, 10, 411, 61));
+        noContactsLabel = new QLabel(scrollAreaContacts);
+        noContactsLabel->setObjectName("noContactsLabel");
+        noContactsLabel->setGeometry(QRect(60, 200, 321, 31));
+        QFont font2;
+        font2.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
+        font2.setPointSize(18);
+        noContactsLabel->setFont(font2);
+        noContactsLabel->setAlignment(Qt::AlignCenter);
         scrollArea->setWidget(scrollAreaContacts);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
-        menubar->setGeometry(QRect(0, 0, 490, 22));
+        menubar->setGeometry(QRect(0, 0, 490, 27));
+        QFont font3;
+        font3.setPointSize(12);
+        menubar->setFont(font3);
+        menubar->setStyleSheet(QString::fromUtf8("background-color: white;"));
+        menuOpenfrom_file = new QMenu(menubar);
+        menuOpenfrom_file->setObjectName("menuOpenfrom_file");
+        menuOpenfrom_file->setFont(font3);
+        menuSave = new QMenu(menubar);
+        menuSave->setObjectName("menuSave");
+        menuSave->setFont(font3);
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
         MainWindow->setStatusBar(statusbar);
+
+        menubar->addAction(menuOpenfrom_file->menuAction());
+        menubar->addAction(menuSave->menuAction());
 
         retranslateUi(MainWindow);
 
@@ -99,7 +129,10 @@ public:
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Contact Book", nullptr));
         searchLine->setPlaceholderText(QCoreApplication::translate("MainWindow", "  Search contacts by name...", nullptr));
         searchImage->setText(QString());
-        addButton->setText(QCoreApplication::translate("MainWindow", "Add contact", nullptr));
+        addButton->setText(QCoreApplication::translate("MainWindow", "+", nullptr));
+        noContactsLabel->setText(QCoreApplication::translate("MainWindow", "There is no contacts so far...", nullptr));
+        menuOpenfrom_file->setTitle(QCoreApplication::translate("MainWindow", "Open from file", nullptr));
+        menuSave->setTitle(QCoreApplication::translate("MainWindow", "Save", nullptr));
     } // retranslateUi
 
 };
