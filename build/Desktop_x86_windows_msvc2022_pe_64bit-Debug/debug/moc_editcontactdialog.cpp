@@ -44,9 +44,9 @@ constexpr auto qt_meta_stringdata_CLASSeditContactDialogENDCLASS = QtMocHelpers:
     "QWidget*",
     "contactWidget",
     "contactDeleted",
-    "on_OKButon_clicked",
-    "on_addNumberButton_clicked",
-    "on_deleteButton_clicked"
+    "onOKButonClicked",
+    "onAddNumberButtonClicked",
+    "onDeleteButtonClicked"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -104,11 +104,11 @@ Q_CONSTINIT const QMetaObject editContactDialog::staticMetaObject = { {
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
         QtPrivate::TypeAndForceComplete<const Contact &, std::false_type>,
         QtPrivate::TypeAndForceComplete<QWidget *, std::false_type>,
-        // method 'on_OKButon_clicked'
+        // method 'onOKButonClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_addNumberButton_clicked'
+        // method 'onAddNumberButtonClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_deleteButton_clicked'
+        // method 'onDeleteButtonClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -122,9 +122,9 @@ void editContactDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, in
         switch (_id) {
         case 0: _t->contactUpdated((*reinterpret_cast< std::add_pointer_t<Contact>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2]))); break;
         case 1: _t->contactDeleted((*reinterpret_cast< std::add_pointer_t<Contact>>(_a[1])),(*reinterpret_cast< std::add_pointer_t<QWidget*>>(_a[2]))); break;
-        case 2: _t->on_OKButon_clicked(); break;
-        case 3: _t->on_addNumberButton_clicked(); break;
-        case 4: _t->on_deleteButton_clicked(); break;
+        case 2: _t->onOKButonClicked(); break;
+        case 3: _t->onAddNumberButtonClicked(); break;
+        case 4: _t->onDeleteButtonClicked(); break;
         default: ;
         }
     } else if (_c == QMetaObject::RegisterMethodArgumentMetaType) {

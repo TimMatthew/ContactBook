@@ -6,9 +6,16 @@
 #include <QMap>
 #include <QLabel>
 #include<QLineEdit>
-#include "contact.h"
 #include <QDebug>
 #include <QMouseEvent>
+#include <QFile>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonArray>
+#include <QMessageBox>
+#include "contact.h"
 
 QT_BEGIN_NAMESPACE
 namespace Ui {
@@ -23,18 +30,20 @@ class MainWindow : public QMainWindow
 public:
     QVBoxLayout *contactsLayout;
     MainWindow(QWidget *parent = nullptr);
-    QWidget* createContactWidget(const Contact& newContact);
+    QWidget* createContactWidget(const Contact& newContact, const bool isToAdd);
     ~MainWindow();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *e) override;
 
 private slots:
-    void on_addButton_clicked();
+    void onAddButtonClicked();
     void onContactWidgetClicked(QWidget *contactWidget);
     void updateContact(const Contact &updatedContact, QWidget *contactWidget);
     void deleteContact(const Contact &updatedContact, QWidget *contactWidget);
-    void on_searchImage_clicked();
+    void onSearchImageClicked();
+    void saveContactsToFile();
+    void openContactsFromFile();
 
 private:
     QLabel *noContactsLabel;

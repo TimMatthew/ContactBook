@@ -20,6 +20,19 @@ MainWindow::MainWindow(QWidget *parent)
     contactsLayout->setAlignment(Qt::AlignTop);
     ui->scrollAreaContacts->setLayout(contactsLayout);
     ui->searchImage->installEventFilter(this);
+
+    // QLabel *noContactsLabel = new QLabel("No contacts so far...");
+    // noContactsLabel->setStyleSheet("QLabel{"
+    //                                "font: Franklin Gothic Book;"
+    //                              "font-size: 13pt;}");
+
+    // contactsLayout->addWidget(noContactsLabel);
+    // noContactsLabel->setGeometry(110,200,200,200);
+
+
+    connect(ui->actionSave, &QAction::triggered, this, &MainWindow::saveContactsToFile);
+    connect(ui->actionOpen, &QAction::triggered, this, &MainWindow::openContactsFromFile);
+
 }
 
 MainWindow::~MainWindow()
@@ -27,7 +40,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-QWidget* MainWindow::createContactWidget(const Contact& newContact)
+QWidget* MainWindow::createContactWidget(const Contact& newContact, const bool isToAdd)
 {
     QWidget *contactWidget = new QWidget();
     contactWidget->setStyleSheet(""
@@ -38,36 +51,39 @@ QWidget* MainWindow::createContactWidget(const Contact& newContact)
                                  "border: 2px solid lightblue;"
                                  "margin: 5px;"
                                  "padding-left: 8px;}");
-    QVBoxLayout *widgetLayout = new QVBoxLayout(contactWidget);
+
+    QVBoxLayout *widgetLayout = new QVBoxLayout();
+    contactWidget->setLayout(widgetLayout);
 
     QLabel *nameLabel = new QLabel(newContact.getContactName());
     nameLabel->setStyleSheet("QLabel{border: 0px; margin: 2px}");
     widgetLayout->addWidget(nameLabel);
 
-    int width=420, height=70, amount=1;
+    int width = 420, height = 70, amount = 1;
 
     for (const QString &phoneNumber : newContact.getPhoneNumbers()) {
-
         QLabel *phoneLabel = new QLabel(phoneNumber);
         phoneLabel->setStyleSheet("QLabel{border: 0px; margin: 2px}");
         widgetLayout->addWidget(phoneLabel);
-        if(amount>1) height+=40;
+        if (amount > 1) height += 40;
         amount++;
     }
+
     contactWidget->setFixedSize(width, height);
     contactWidget->installEventFilter(this);
 
-    contactWidgetsMap[contactWidget] = newContact;
+    if(isToAdd)
+        contactWidgetsMap[contactWidget] = newContact;
 
-    ui->noContactsLabel->hide();
     return contactWidget;
 }
+
 
 bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 {
 
     if(obj == ui->searchImage && event->type() == QEvent::MouseButtonPress){
-        on_searchImage_clicked();
+        onSearchImageClicked();
         return true;
     }
     if (event->type() == QEvent::MouseButtonPress) {
@@ -81,7 +97,7 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 }
 
 
-void MainWindow::on_addButton_clicked()
+void MainWindow::onAddButtonClicked()
 {
     addContactDialog acd(this);
     acd.setModal(true);
@@ -103,19 +119,18 @@ void MainWindow::onContactWidgetClicked(QWidget *contactWidget)
     ecd.exec();
 }
 
-void MainWindow::on_searchImage_clicked() {
+void MainWindow::onSearchImageClicked() {
     QString searchPrompt = ui->searchLine->text();
     QList<QWidget*> contactsMatched;
 
-    for (auto it = contactWidgetsMap.constBegin(); it != contactWidgetsMap.constEnd(); ++it) {
+    for (QMap<QWidget*, Contact>::const_iterator it = contactWidgetsMap.constBegin(); it != contactWidgetsMap.constEnd(); ++it) {
         Contact contact = it.value();
 
         bool contactMatches = false;
 
         if (contact.getContactName().contains(searchPrompt, Qt::CaseInsensitive)) {
             contactMatches = true;
-        }
-        else {
+        } else {
             QVector<QString> contactNumbers = contact.getPhoneNumbers();
             for (const QString &number : contactNumbers) {
                 if (number.startsWith(searchPrompt)) {
@@ -130,8 +145,7 @@ void MainWindow::on_searchImage_clicked() {
         }
     }
 
-    // Show or hide contacts based on the search result
-    for (auto it = contactWidgetsMap.constBegin(); it != contactWidgetsMap.constEnd(); ++it) {
+    for (QMap<QWidget*, Contact>::const_iterator it = contactWidgetsMap.constBegin(); it != contactWidgetsMap.constEnd(); ++it) {
         QWidget *contactWidget = it.key();
         if (contactsMatched.contains(contactWidget)) {
             contactWidget->show();
@@ -147,14 +161,112 @@ void MainWindow::deleteContact(const Contact &deletedContact, QWidget *contactWi
     contactWidgetsMap.remove(contactWidgetToDelete);
     contactsLayout->removeWidget(contactWidgetToDelete);
     contactWidgetToDelete->deleteLater();
-
-    if(contactWidgetsMap.empty()) ui->noContactsLabel->show();
 }
 
 void MainWindow::updateContact(const Contact &updatedContact, QWidget *contactWidget)
 {
-    contactWidgetsMap[contactWidget] = updatedContact;
-    QWidget *newContactWidget = createContactWidget(updatedContact);
+    QWidget *newContactWidget = createContactWidget(updatedContact, 0);
+
+    contactWidgetsMap.remove(contactWidget);
     contactsLayout->replaceWidget(contactWidget, newContactWidget);
+    contactWidgetsMap[newContactWidget] = updatedContact;
     contactWidget->deleteLater();
 }
+
+
+void MainWindow::saveContactsToFile()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save Contacts"),
+                                                    QDir::homePath(),
+                                                    tr("JSON Files (*.json)"));
+
+    if (fileName.isEmpty())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+        QMessageBox::warning(this, tr("Error"), tr("Failed to save contacts."));
+        return;
+    }
+
+    QJsonArray contactsArray;
+
+    for (QMap<QWidget*, Contact>::const_iterator it = contactWidgetsMap.constBegin(); it != contactWidgetsMap.constEnd(); ++it) {
+        const Contact &c = it.value();
+        QJsonObject contactObject;
+        contactObject["name"] = c.getContactName();
+        QJsonArray phoneNumbersArray;
+
+        const QVector<QString> phoneNumbers = c.getPhoneNumbers();
+        for (QVector<QString>::const_iterator numIt = phoneNumbers.constBegin(); numIt != phoneNumbers.constEnd(); ++numIt) {
+            const QString &phoneNumber = *numIt;
+            phoneNumbersArray.append(phoneNumber);
+        }
+
+        contactObject["phoneNumbers"] = phoneNumbersArray;
+        contactsArray.append(contactObject);
+    }
+
+    QJsonDocument jsonDoc(contactsArray);
+    QTextStream out(&file);
+    out << jsonDoc.toJson();
+    file.close();
+}
+
+void MainWindow::openContactsFromFile() {
+
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open Contacts"),
+                                                    QDir::homePath(),
+                                                    tr("JSON Files (*.json)"));
+
+    if (fileName.isEmpty())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(this, tr("Error"), tr("Failed to open contacts file."));
+        return;
+    }
+
+    QByteArray jsonData = file.readAll();
+    file.close();
+
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(jsonData);
+    if (jsonDoc.isNull() || !jsonDoc.isArray()) {
+        QMessageBox::warning(this, tr("Error"), tr("Invalid JSON format."));
+        return;
+    }
+
+    contactWidgetsMap.clear();
+    QList<QWidget*> widgetsList = ui->scrollAreaContacts->findChildren<QWidget*>();
+    for (QList<QWidget*>::const_iterator widget = widgetsList.constBegin(); widget != widgetsList.constEnd(); ++widget) {
+        (*widget)->deleteLater();
+    }
+
+    QJsonArray contactsArray = jsonDoc.array();
+
+    for (const QJsonValue &contactValue : contactsArray) {
+        if (!contactValue.isObject())
+            continue;
+
+        QJsonObject contactObject = contactValue.toObject();
+        QString contactName = contactObject["name"].toString();
+        QJsonValue phoneNumbersValue = contactObject["phoneNumbers"];
+
+        if (!phoneNumbersValue.isArray())
+            continue;
+
+        QJsonArray phoneNumbersArray = phoneNumbersValue.toArray();
+        QVector<QString> phoneNumbers;
+        for (const QJsonValue &phoneNumberValue : phoneNumbersArray) {
+            if (phoneNumberValue.isString()) {
+                phoneNumbers.append(phoneNumberValue.toString());
+            }
+        }
+
+        Contact contact(contactName, phoneNumbers);
+        QWidget *contactWidget = createContactWidget(contact, 1);
+        contactsLayout->addWidget(contactWidget);
+    }
+}
+

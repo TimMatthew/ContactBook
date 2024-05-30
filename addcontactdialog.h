@@ -17,12 +17,13 @@ public:
     ~addContactDialog();
 
 private slots:
-    void on_OKButton_clicked();
-    void on_addNumberButton_clicked();
+    void onOKButtonClicked();
+    void onAddNumberButtonClicked();
 
 private:
     Ui::addContactDialog *ui;
     void addNumberWidget(int number);
+    bool isNumbersUnique(const QList<QWidget*> numbersToAdd);
     MainWindow *mainWindowRef;
     QLabel *emptyName;
     QLabel *emptyNumber;

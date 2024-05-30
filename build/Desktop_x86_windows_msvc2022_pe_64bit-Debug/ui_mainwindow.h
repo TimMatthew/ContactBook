@@ -27,6 +27,8 @@ QT_BEGIN_NAMESPACE
 class Ui_MainWindow
 {
 public:
+    QAction *actionOpen;
+    QAction *actionSave;
     QWidget *centralwidget;
     QWidget *searchWidget;
     QLineEdit *searchLine;
@@ -35,10 +37,8 @@ public:
     QScrollArea *scrollArea;
     QWidget *scrollAreaContacts;
     QWidget *widget;
-    QLabel *noContactsLabel;
     QMenuBar *menubar;
-    QMenu *menuOpenfrom_file;
-    QMenu *menuSave;
+    QMenu *fileMenu;
     QStatusBar *statusbar;
 
     void setupUi(QMainWindow *MainWindow)
@@ -47,6 +47,10 @@ public:
             MainWindow->setObjectName("MainWindow");
         MainWindow->resize(490, 690);
         MainWindow->setStyleSheet(QString::fromUtf8("background-color: rgb(210, 255, 252);"));
+        actionOpen = new QAction(MainWindow);
+        actionOpen->setObjectName("actionOpen");
+        actionSave = new QAction(MainWindow);
+        actionSave->setObjectName("actionSave");
         centralwidget = new QWidget(MainWindow);
         centralwidget->setObjectName("centralwidget");
         searchWidget = new QWidget(centralwidget);
@@ -74,7 +78,7 @@ public:
         font1.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
         font1.setPointSize(48);
         addButton->setFont(font1);
-        addButton->setStyleSheet(QString::fromUtf8("background-color: lightgreen;\n"
+        addButton->setStyleSheet(QString::fromUtf8("background-color: rgb(118, 211, 84);\n"
 "border-radius: 35px;\n"
 "color: white;\n"
 ""));
@@ -88,36 +92,26 @@ public:
         widget = new QWidget(scrollAreaContacts);
         widget->setObjectName("widget");
         widget->setGeometry(QRect(20, 10, 411, 61));
-        noContactsLabel = new QLabel(scrollAreaContacts);
-        noContactsLabel->setObjectName("noContactsLabel");
-        noContactsLabel->setGeometry(QRect(60, 200, 321, 31));
-        QFont font2;
-        font2.setFamilies({QString::fromUtf8("Franklin Gothic Book")});
-        font2.setPointSize(18);
-        noContactsLabel->setFont(font2);
-        noContactsLabel->setAlignment(Qt::AlignCenter);
         scrollArea->setWidget(scrollAreaContacts);
         MainWindow->setCentralWidget(centralwidget);
         menubar = new QMenuBar(MainWindow);
         menubar->setObjectName("menubar");
         menubar->setGeometry(QRect(0, 0, 490, 27));
-        QFont font3;
-        font3.setPointSize(12);
-        menubar->setFont(font3);
+        QFont font2;
+        font2.setPointSize(12);
+        menubar->setFont(font2);
         menubar->setStyleSheet(QString::fromUtf8("background-color: white;"));
-        menuOpenfrom_file = new QMenu(menubar);
-        menuOpenfrom_file->setObjectName("menuOpenfrom_file");
-        menuOpenfrom_file->setFont(font3);
-        menuSave = new QMenu(menubar);
-        menuSave->setObjectName("menuSave");
-        menuSave->setFont(font3);
+        fileMenu = new QMenu(menubar);
+        fileMenu->setObjectName("fileMenu");
+        fileMenu->setFont(font2);
         MainWindow->setMenuBar(menubar);
         statusbar = new QStatusBar(MainWindow);
         statusbar->setObjectName("statusbar");
         MainWindow->setStatusBar(statusbar);
 
-        menubar->addAction(menuOpenfrom_file->menuAction());
-        menubar->addAction(menuSave->menuAction());
+        menubar->addAction(fileMenu->menuAction());
+        fileMenu->addAction(actionOpen);
+        fileMenu->addAction(actionSave);
 
         retranslateUi(MainWindow);
 
@@ -127,12 +121,12 @@ public:
     void retranslateUi(QMainWindow *MainWindow)
     {
         MainWindow->setWindowTitle(QCoreApplication::translate("MainWindow", "Contact Book", nullptr));
+        actionOpen->setText(QCoreApplication::translate("MainWindow", "Open", nullptr));
+        actionSave->setText(QCoreApplication::translate("MainWindow", "Save", nullptr));
         searchLine->setPlaceholderText(QCoreApplication::translate("MainWindow", "  Search contacts by name...", nullptr));
         searchImage->setText(QString());
         addButton->setText(QCoreApplication::translate("MainWindow", "+", nullptr));
-        noContactsLabel->setText(QCoreApplication::translate("MainWindow", "There is no contacts so far...", nullptr));
-        menuOpenfrom_file->setTitle(QCoreApplication::translate("MainWindow", "Open from file", nullptr));
-        menuSave->setTitle(QCoreApplication::translate("MainWindow", "Save", nullptr));
+        fileMenu->setTitle(QCoreApplication::translate("MainWindow", "File", nullptr));
     } // retranslateUi
 
 };

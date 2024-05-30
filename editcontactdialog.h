@@ -19,9 +19,9 @@ public:
     void setContact (const Contact& contact);
 
 private slots:
-    void on_OKButon_clicked();
-    void on_addNumberButton_clicked();
-    void on_deleteButton_clicked();
+    void onOKButonClicked();
+    void onAddNumberButtonClicked();
+    void onDeleteButtonClicked();
 
 signals:
     void contactUpdated(const Contact &contact, QWidget *contactWidget);

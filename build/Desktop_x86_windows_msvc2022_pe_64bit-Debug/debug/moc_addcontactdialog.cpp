@@ -37,9 +37,9 @@ namespace {
 struct qt_meta_stringdata_CLASSaddContactDialogENDCLASS_t {};
 constexpr auto qt_meta_stringdata_CLASSaddContactDialogENDCLASS = QtMocHelpers::stringData(
     "addContactDialog",
-    "on_OKButton_clicked",
+    "onOKButtonClicked",
     "",
-    "on_addNumberButton_clicked"
+    "onAddNumberButtonClicked"
 );
 #else  // !QT_MOC_HAS_STRINGDATA
 #error "qtmochelpers.h not found or too old."
@@ -79,9 +79,9 @@ Q_CONSTINIT const QMetaObject addContactDialog::staticMetaObject = { {
     qt_incomplete_metaTypeArray<qt_meta_stringdata_CLASSaddContactDialogENDCLASS_t,
         // Q_OBJECT / Q_GADGET
         QtPrivate::TypeAndForceComplete<addContactDialog, std::true_type>,
-        // method 'on_OKButton_clicked'
+        // method 'onOKButtonClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>,
-        // method 'on_addNumberButton_clicked'
+        // method 'onAddNumberButtonClicked'
         QtPrivate::TypeAndForceComplete<void, std::false_type>
     >,
     nullptr
@@ -93,8 +93,8 @@ void addContactDialog::qt_static_metacall(QObject *_o, QMetaObject::Call _c, int
         auto *_t = static_cast<addContactDialog *>(_o);
         (void)_t;
         switch (_id) {
-        case 0: _t->on_OKButton_clicked(); break;
-        case 1: _t->on_addNumberButton_clicked(); break;
+        case 0: _t->onOKButtonClicked(); break;
+        case 1: _t->onAddNumberButtonClicked(); break;
         default: ;
         }
     }

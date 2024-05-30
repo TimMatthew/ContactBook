@@ -73,7 +73,7 @@ void editContactDialog::loadNumbers()
 }
 
 
-void editContactDialog::on_OKButon_clicked()
+void editContactDialog::onOKButonClicked()
 {
     QString updatedName = ui->nameLine->text();
     QVector<QString> updatedNumbers;
@@ -88,6 +88,8 @@ void editContactDialog::on_OKButon_clicked()
         emptyName->show();
     }
     else{
+
+
         int i = 1;
         while (true) {
             QLineEdit *numberLine = findChild<QLineEdit *>(QString("numberLine%1").arg(i));
@@ -128,13 +130,13 @@ void editContactDialog::on_OKButon_clicked()
 
 }
 
-void editContactDialog::on_deleteButton_clicked()
+void editContactDialog::onDeleteButtonClicked()
 {
     emit contactDeleted(contactToEdit, this);
     hide();
 }
 
-void editContactDialog::on_addNumberButton_clicked()
+void editContactDialog::onAddNumberButtonClicked()
 {
     int numberIndex = ui->scrollAreaNumbers->layout()->count() + 1;
 

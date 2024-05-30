@@ -157,8 +157,8 @@ border: 2px solid black;</string>
   <widget class="QPushButton" name="addNumberButton">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>220</y>
+     <x>383</x>
+     <y>270</y>
      <width>146</width>
      <height>41</height>
     </rect>
@@ -181,8 +181,8 @@ border-radius: 10px;</string>
   <widget class="QPushButton" name="OKButon">
    <property name="geometry">
     <rect>
-     <x>239</x>
-     <y>220</y>
+     <x>232</x>
+     <y>270</y>
      <width>145</width>
      <height>41</height>
     </rect>
@@ -205,8 +205,8 @@ border-radius: 10px;</string>
   <widget class="QPushButton" name="deleteButton">
    <property name="geometry">
     <rect>
-     <x>87</x>
-     <y>220</y>
+     <x>80</x>
+     <y>270</y>
      <width>146</width>
      <height>41</height>
     </rect>
@@ -225,17 +225,6 @@ border-radius: 10px;</string>
    <property name="text">
     <string>Delete contact</string>
    </property>
-  </widget>
-  <widget class="QWidget" name="horizontalLayoutWidget">
-   <property name="geometry">
-    <rect>
-     <x>60</x>
-     <y>250</y>
-     <width>481</width>
-     <height>51</height>
-    </rect>
-   </property>
-   <layout class="QHBoxLayout" name="horizontalLayout"/>
   </widget>
  </widget>
  <resources/>

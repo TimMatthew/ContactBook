@@ -34,7 +34,7 @@ addContactDialog::~addContactDialog()
     delete ui;
 }
 
-void addContactDialog::on_OKButton_clicked()
+void addContactDialog::onOKButtonClicked()
 {
 
     QString name = ui->nameLine->text();
@@ -87,7 +87,7 @@ void addContactDialog::on_OKButton_clicked()
 
         if(isAllright){
             Contact newContact(name, phoneNumbers);
-            QWidget *contactWidget = mainWindowRef->createContactWidget(newContact);
+            QWidget *contactWidget = mainWindowRef->createContactWidget(newContact, 1);
             mainWindowRef->contactsLayout->addWidget(contactWidget);
 
             hide();
@@ -95,7 +95,7 @@ void addContactDialog::on_OKButton_clicked()
     }
 }
 
-void addContactDialog::on_addNumberButton_clicked()
+void addContactDialog::onAddNumberButtonClicked()
 {
     addNumberWidget(ui->scrollAreaNumbers->layout()->count() + 1);
 }
@@ -115,4 +115,8 @@ void addContactDialog::addNumberWidget(int number)
 
     QVBoxLayout *layout = qobject_cast<QVBoxLayout*>(ui->scrollAreaNumbers->layout());
     layout->addWidget(newNumberWidget);
+}
+
+bool addContactDialog::isNumbersUnique(const QList<QWidget*> numbersToAdd){
+    return true;
 }
